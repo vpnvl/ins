@@ -1,0 +1,38 @@
+import java.util.*;
+
+public class TranspositionShort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter key: ");
+        String keyword = sc.next().toUpperCase();            // e.g. AUTHOR
+        int cols = 7;                                       // fixed as in your original
+        int[] key = new int[8];                             // keep length 8 to match output
+        Integer[] idx = new Integer[keyword.length()];
+        for (int i = 0; i < idx.length; i++) idx[i] = i;
+        Arrays.sort(idx, (a,b)-> Character.compare(keyword.charAt(a), keyword.charAt(b)));
+        for (int i = 0; i < idx.length; i++) key[idx[i]] = i+1; // numeric order (1..n)
+
+        System.out.println("KEY (numeric): " + Arrays.toString(key));
+
+        System.out.print("Enter PLAIN TEXT:\n");
+        String plain = sc.next().toUpperCase();             // e.g. ATTACKPOSTPONEDUNTILTWOAM
+        System.out.println("Plain: " + plain);
+
+        int len = plain.length();
+        int rows = (len + cols - 1) / cols;
+        char[][] mat = new char[rows][cols];
+        // fill row-wise and pad with 'X'
+        int k = 0;
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                mat[r][c] = (k < len) ? plain.charAt(k++) : 'X';
+            }
+        }
+        // print matrix rows
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) System.out.print(mat[r][c] + (c==cols-1 ? "" : " "));
+            System.out.println();
+        }
+        sc.close();
+    }
+}
