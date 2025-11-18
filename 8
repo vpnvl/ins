@@ -1,0 +1,38 @@
+import java.math.BigInteger;
+public class DSAShort {
+    public static void main(String[] a) {
+        BigInteger p=BigInteger.valueOf(10601L),
+                   q=BigInteger.valueOf(53L),
+                   g=BigInteger.valueOf(2619L),
+                   x=BigInteger.valueOf(9L),
+                   k=BigInteger.valueOf(36L),
+                   h=BigInteger.valueOf(6826L);
+        BigInteger y=g.modPow(x,p);
+        BigInteger r=g.modPow(k,p).mod(q);
+        BigInteger kInv=k.modInverse(q);
+        BigInteger s=kInv.multiply(h.add(x.multiply(r))).mod(q);
+        BigInteger w=s.modInverse(q);
+        BigInteger u1=h.multiply(w).mod(q), u2=r.multiply(w).mod(q);
+        BigInteger v=g.modPow(u1,p).multiply(y.modPow(u2,p)).mod(p).mod(q);
+
+        System.out.println("Digital Signature Algorithm");
+        System.out.println("global public key components are:");
+        System.out.println("p is: " + p);
+        System.out.println("q is: " + q);
+        System.out.println("g is: " + g);
+        System.out.println("secret information are:");
+        System.out.println("x (private) is: " + x);
+        System.out.println("k (secret) is: " + k);
+        System.out.println("y (public) is: " + y);
+        System.out.println("h (rndhash) is: " + h);
+        System.out.println("Generating digital signature:");
+        System.out.println("r is : " + r + "s is : " + s);
+        System.out.println("verifying digital signature (checkpoints):");
+        System.out.println("w is : " + w);
+        System.out.println("u1 is : " + u1);
+        System.out.println("u2 is : " + u2);
+        System.out.println("v is : " + v);
+        if (v.equals(r)) System.out.println("success: digital signature is verified! " + r);
+        else System.out.println("error: incorrect digital signature");
+    }
+}
