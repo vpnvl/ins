@@ -1,0 +1,34 @@
+import java.io.*;
+import java.security.Key;
+import javax.crypto.*;
+import javax.crypto.spec.*;
+import java.util.Base64;
+
+public class BlowFishShort {
+    public static void main(String[] args) throws Exception {
+        KeyGenerator kg = KeyGenerator.getInstance("Blowfish");
+        kg.init(128);
+        Key key = kg.generateKey();
+
+        Cipher c = Cipher.getInstance("Blowfish/CFB/NoPadding");
+        c.init(Cipher.ENCRYPT_MODE, key);
+
+        byte[] iv = c.getIV();
+        if (iv != null) {
+            System.out.println("Initialization Vector of the Cipher: " +
+                    Base64.getEncoder().encodeToString(iv));
+
+            FileInputStream fin = new FileInputStream("inputFile.txt");
+            CipherOutputStream cout = new CipherOutputStream(
+                    new FileOutputStream("outputFile.txt"), c);
+
+            int b;
+            while ((b = fin.read()) != -1) cout.write(b);
+
+            fin.close();
+            cout.close();
+
+            System.out.println("Encryption complete. Encrypted file saved as outputFile.txt");
+        }
+    }
+}
