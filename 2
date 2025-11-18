@@ -1,0 +1,17 @@
+public class AndXorString {
+    public static void main(String[] args) {
+        String str = "Hello World";
+
+        // AND with 127
+        System.out.print("AND with 127: ");
+        for (char c : str.toCharArray())
+            System.out.print((char)(c & 127));
+
+        System.out.println();
+
+        // XOR with 127 (encrypt + decrypt in one go)
+        System.out.print("XOR with 127: ");
+        for (char c : str.toCharArray())
+            System.out.print((char)((c ^ 127) ^ 127));
+    }
+}
