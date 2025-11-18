@@ -1,0 +1,34 @@
+import java.math.BigInteger;
+import java.security.*;
+import javax.crypto.spec.*;
+
+public class DiffeHellman {
+    public static final int pValue = 47, gValue = 71, XaValue = 9, XbValue = 14;
+
+    public static void main(String[] args) throws Exception {
+        BigInteger p = BigInteger.valueOf(pValue);
+        BigInteger g = BigInteger.valueOf(gValue);
+
+        createKey();
+        SecureRandom r = new SecureRandom();
+        createSpecificKey(BigInteger.probablePrime(512, r), BigInteger.probablePrime(512, r));
+    }
+
+    static void createKey() throws Exception {
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance("DiffieHellman");
+        kpg.initialize(512);
+        KeyPair kp = kpg.generateKeyPair();
+        KeyFactory kf = KeyFactory.getInstance("DiffieHellman");
+        DHPublicKeySpec spec = kf.getKeySpec(kp.getPublic(), DHPublicKeySpec.class);
+        System.out.println("Public key is: " + spec);
+    }
+
+    static void createSpecificKey(BigInteger p, BigInteger g) throws Exception {
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance("DiffieHellman");
+        kpg.initialize(new DHParameterSpec(p, g));
+        KeyPair kp = kpg.generateKeyPair();
+        KeyFactory kf = KeyFactory.getInstance("DiffieHellman");
+        DHPublicKeySpec spec = kf.getKeySpec(kp.getPublic(), DHPublicKeySpec.class);
+        System.out.println("Public key is : " + spec);
+    }
+}
