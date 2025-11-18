@@ -1,0 +1,29 @@
+import java.security.*;
+
+public class MD5Short {
+    public static void main(String[] a) throws Exception {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        System.out.println("Message digest object info:");
+        System.out.println(" Algorithm = " + md.getAlgorithm());
+        System.out.println(" Provider = " + md.getProvider());
+        System.out.println(" ToString = " + md);
+
+        test(md, "");
+        test(md, "abc");
+        test(md, "abcdefghijklmnopqrstuvwxyz");
+    }
+
+    static void test(MessageDigest md, String input) {
+        md.update(input.getBytes());
+        byte[] out = md.digest();
+        System.out.println("\nMD5(\"" + input + "\") = " + bytesToHex(out));
+    }
+
+    static String bytesToHex(byte[] b) {
+        StringBuilder sb = new StringBuilder();
+        for (byte x : b) {
+            sb.append(String.format("%02X", x));
+        }
+        return sb.toString();
+    }
+}
