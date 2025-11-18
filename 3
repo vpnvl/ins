@@ -1,0 +1,28 @@
+import java.util.*;
+
+public class C {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String a = "abcdefghijklmnopqrstuvwxyz";
+
+        System.out.print("Enter text: ");
+        String p = sc.nextLine();
+
+        System.out.print("Enter key: ");
+        int k = sc.nextInt();
+
+        String c = "", d = "";
+
+        for (char x : p.toCharArray())
+            c += a.charAt((a.indexOf(x) + k) % 26);
+
+        for (char x : c.toCharArray()) {
+            int t = (a.indexOf(x) - k) % 26;
+            if (t < 0) t += 26;
+            d += a.charAt(t);
+        }
+
+        System.out.println("Encrypted: " + c);
+        System.out.println("Decrypted: " + d);
+    }
+}
